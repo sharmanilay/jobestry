@@ -2,6 +2,9 @@ name: Lint Check
 
 on: [ pull_request_target ]
 
+permissions:
+  contents: read
+
 jobs:
   eslint:
     runs-on: ubuntu-latest
