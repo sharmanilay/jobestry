@@ -106,7 +106,7 @@ const preferencesStorage = {
     // Normalize domain format
     let normalized = domain.trim().toLowerCase();
     // Remove protocol if present
-    normalized = normalized.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+    normalized = normalized.replace(/^https?:\/\//, '').replace(/\/[^/]*$/, '');
     // Add wildcard if not present
     if (!normalized.startsWith('*://') && !normalized.startsWith('*.')) {
       normalized = `*.${normalized}`;
