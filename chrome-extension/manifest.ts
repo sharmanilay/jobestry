@@ -24,14 +24,61 @@ const manifest = {
   name: '__MSG_extensionName__',
   browser_specific_settings: {
     gecko: {
-      id: 'example@example.com',
+      id: 'jobestry@jobestry.app',
       strict_min_version: '109.0',
     },
   },
   version: packageJson.version,
   description: '__MSG_extensionDescription__',
-  host_permissions: ['<all_urls>'],
-  permissions: ['storage', 'scripting', 'tabs', 'notifications', 'sidePanel'],
+  // Default job site domains - users can add more from popup or hotkey
+  host_permissions: [
+    '*://*.linkedin.com/*',
+    '*://*.indeed.com/*',
+    '*://*.glassdoor.com/*',
+    '*://*.greenhouse.io/*',
+    '*://*.lever.co/*',
+    '*://*.ashbyhq.com/*',
+    '*://*.workday.com/*',
+    '*://*.icims.com/*',
+    '*://*.taleo.net/*',
+    '*://*.bamboohr.com/*',
+    '*://*.smartrecruiters.com/*',
+    '*://*.monster.com/*',
+    '*://*.ziprecruiter.com/*',
+    '*://*.hired.com/*',
+    '*://*.angel.co/*',
+  ],
+  permissions: ['storage', 'scripting', 'tabs', 'notifications', 'sidePanel', 'contextMenus'],
+  commands: {
+    'toggle-sidebar': {
+      suggested_key: {
+        default: 'Ctrl+Shift+K',
+        mac: 'Command+Shift+K',
+      },
+      description: 'Toggle Jobestry sidebar',
+    },
+    'quick-fill': {
+      suggested_key: {
+        default: 'Ctrl+Shift+F',
+        mac: 'Command+Shift+F',
+      },
+      description: 'Quick fill all fields',
+    },
+    'generate-cover-letter': {
+      suggested_key: {
+        default: 'Ctrl+Shift+L',
+        mac: 'Command+Shift+L',
+      },
+      description: 'Generate cover letter',
+    },
+    'save-job': {
+      suggested_key: {
+        default: 'Ctrl+Shift+S',
+        mac: 'Command+Shift+S',
+      },
+      description: 'Save current job to tracker',
+    },
+  },
   options_page: 'options/index.html',
   background: {
     service_worker: 'background.js',
@@ -41,10 +88,10 @@ const manifest = {
     default_popup: 'popup/index.html',
     default_icon: 'icon-34.png',
   },
-  chrome_url_overrides: {
-    newtab: 'new-tab/index.html',
-  },
   icons: {
+    '16': 'icon-34.png',
+    '32': 'icon-34.png',
+    '48': 'icon-34.png',
     '128': 'icon-128.png',
   },
   content_scripts: [
@@ -53,32 +100,14 @@ const manifest = {
       js: ['content/all.iife.js'],
     },
     {
-      matches: ['https://example.com/*'],
-      js: ['content/example.iife.js'],
-    },
-    {
       matches: ['http://*/*', 'https://*/*', '<all_urls>'],
       js: ['content-ui/all.iife.js'],
-    },
-    {
-      matches: ['https://example.com/*'],
-      js: ['content-ui/example.iife.js'],
     },
     {
       matches: ['http://*/*', 'https://*/*', '<all_urls>'],
       css: ['content.css'],
     },
   ],
-  devtools_page: 'devtools/index.html',
-  web_accessible_resources: [
-    {
-      resources: ['*.js', '*.css', '*.svg', 'icon-128.png', 'icon-34.png'],
-      matches: ['*://*/*'],
-    },
-  ],
-  side_panel: {
-    default_path: 'side-panel/index.html',
-  },
 } satisfies ManifestType;
 
 export default manifest;

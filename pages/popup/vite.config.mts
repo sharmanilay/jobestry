@@ -14,4 +14,10 @@ export default withPageConfig({
   build: {
     outDir: resolve(rootDir, '..', '..', 'dist', 'popup'),
   },
+  optimizeDeps: {
+    include: ['pdfjs-dist'],
+  },
+  worker: {
+    format: 'es',
+  },
 });

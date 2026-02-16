@@ -63,7 +63,7 @@ export const makeEntryPointPlugin = (): PluginOption => ({
             const contentDirectory = extractContentDir(outputDir);
             module.code = `import(browser.runtime.getURL("${contentDirectory}/${newFileNameBase}"));`;
           } else {
-            module.code = `import('./${newFileNameBase}');`;
+            module.code = `(() => {\n${module.code}\n})();`;
           }
           break;
         }

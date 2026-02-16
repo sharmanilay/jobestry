@@ -4,8 +4,15 @@ import type { ReactElement } from 'react';
 export const initAppWithShadow = ({ id, app, inlineCss }: { id: string; inlineCss: string; app: ReactElement }) => {
   const root = document.createElement('div');
   root.id = id;
+  root.setAttribute('data-jobestry-root', 'true');
+  root.style.setProperty('all', 'initial', 'important');
+  root.style.setProperty('position', 'fixed', 'important');
+  root.style.setProperty('inset', '0', 'important');
+  root.style.setProperty('z-index', '2147483647', 'important');
+  root.style.setProperty('pointer-events', 'none');
+  root.style.setProperty('display', 'block', 'important');
 
-  document.body.append(root);
+  (document.documentElement || document.body).append(root);
 
   const rootIntoShadow = document.createElement('div');
   rootIntoShadow.id = `shadow-root-${id}`;

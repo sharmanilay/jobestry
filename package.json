@@ -1,18 +1,18 @@
 {
-  "name": "chrome-extension-boilerplate-react-vite",
+  "name": "jobestry",
   "version": "0.5.0",
-  "description": "chrome extension boilerplate",
+  "description": "AI-powered Chrome extension for job applications - Auto-fill forms and generate intelligent responses",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite.git"
+    "url": "https://github.com/your-username/jobestry.git"
   },
   "type": "module",
   "scripts": {
     "clean:bundle": "rimraf dist && turbo clean:bundle",
-    "clean:node_modules": "pnpx rimraf node_modules && pnpx turbo clean:node_modules",
+    "clean:node_modules": "pnpx rimraf node_modules && pnpm turbo clean:node_modules",
     "clean:turbo": "rimraf .turbo && turbo clean:turbo",
     "clean": "pnpm clean:bundle && pnpm clean:turbo && pnpm clean:node_modules",
     "clean:install": "pnpm clean:node_modules && pnpm install --frozen-lockfile",
@@ -35,7 +35,10 @@
     "copy-env": "bash bash-scripts/copy_env.sh",
     "set-global-env": "bash bash-scripts/set_global_env.sh",
     "module-manager": "pnpm -F module-manager start",
-    "postinstall": "pnpm copy-env"
+    "postinstall": "pnpm copy-env",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "react": "^19.1.0",
@@ -45,12 +48,17 @@
     "@eslint/compat": "^1.2.9",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.27.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/chrome": "^0.0.323",
     "@types/eslint-plugin-jsx-a11y": "^6.10.0",
     "@types/node": "^22.15.21",
     "@types/react": "^19.1.5",
     "@types/react-dom": "^19.1.5",
     "@typescript-eslint/parser": "^8.32.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^4.0.18",
     "autoprefixer": "^10.4.21",
     "cross-env": "^7.0.3",
     "deepmerge": "^4.3.1",
@@ -68,11 +76,13 @@
     "globals": "^16.1.0",
     "husky": "^9.1.7",
     "jiti": "^2.4.2",
+    "jsdom": "^26.0.0",
     "lint-staged": "^16.0.0",
     "postcss": "^8.5.3",
     "postcss-load-config": "^6.0.1",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
+    "react-error-boundary": "^6.0.0",
     "rimraf": "^6.0.1",
     "run-script-os": "^1.1.6",
     "tailwindcss": "^3.4.17",
@@ -82,7 +92,9 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1",
     "vite": "^6.3.6",
-    "vite-plugin-node-polyfills": "^0.23.0"
+    "vite-plugin-node-polyfills": "^0.23.0",
+    "vitest": "^4.0.18",
+    "zod": "^4.3.6"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json}": [

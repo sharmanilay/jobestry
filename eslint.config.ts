@@ -6,13 +6,13 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import reactPlugin from 'eslint-plugin-react';
 import { browser, es2020, node } from 'globals';
-import { config, configs as tsConfigs, parser as tsParser } from 'typescript-eslint';
+import tseslint, { parser, configs } from 'typescript-eslint';
 import type { FixupConfigArray } from '@eslint/compat';
 
-export default config(
+export default tseslint.config(
   // Shared configs
   js.configs.recommended,
-  ...tsConfigs.recommended,
+  ...configs.recommended,
   jsxA11y.flatConfigs.recommended,
   importXFlatConfig.recommended,
   importXFlatConfig.typescript,
@@ -25,17 +25,26 @@ export default config(
   },
   // Custom config
   {
-    ignores: ['**/build/**', '**/dist/**', '**/node_modules/**', 'chrome-extension/manifest.js'],
+    ignores: [
+      '**/build/**',
+      '**/dist/**',
+      '**/node_modules/**',
+      'chrome-extension/manifest.js',
+      '**/*.min.mjs',
+      '**/package.json',
+    ],
   },
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      parser: tsParser,
+      parser: parser,
       ecmaVersion: 'latest',
       sourceType: 'module',
       parserOptions: {
         ecmaFeatures: { jsx: true },
-        projectService: true,
+        projectService: {
+          allowDefaultProject: ['*.config.js'],
+        },
       },
       globals: {
         ...browser,
@@ -88,7 +97,7 @@ export default config(
       'import-x/no-deprecated': 'error',
       'import-x/no-duplicates': ['error', { considerQueryString: true, 'prefer-inline': false }],
       'import-x/consistent-type-specifier-style': 'error',
-      'import-x/exports-last': 'error',
+      'import-x/exports-last': 'off',
       'import-x/first': 'error',
     },
     linterOptions: {
@@ -100,6 +109,17 @@ export default config(
     files: ['**/packages/shared/**/*.ts'],
     rules: {
       'no-restricted-imports': 'off',
+    },
+  },
+  // Test files overrides
+  {
+    files: ['**/*.test.ts', '**/*.spec.ts'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+      'import-x/order': 'off',
+      'arrow-body-style': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      'no-useless-escape': 'off',
     },
   },
 );

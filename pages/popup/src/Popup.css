@@ -1,30 +1,124 @@
-.App {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  text-align: center;
-  height: 100%;
-  padding: 1rem;
+/* Popup specific styles */
+html,
+body,
+#app-container {
+  width: 420px;
+  min-height: 620px;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 50vmin;
-  margin-bottom: 1rem;
+body {
+  overflow-x: hidden;
+  font-family: var(--font-sans);
+  line-height: var(--leading-normal);
 }
 
-.App-header {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  font-size: 0.75rem;
+/* Smooth transitions */
+button,
+input,
+select,
+textarea {
+  transition: all 0.2s ease;
 }
 
-code {
-  background: rgba(148, 163, 184, 0.5);
-  border-radius: 0.25rem;
-  padding: 0.2rem 0.5rem;
+/* Focus visible for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+.dark *:focus-visible {
+  outline-color: var(--color-primary-400);
+}
+
+/* Status section card */
+.status-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+}
+
+.dark .status-card {
+  background: var(--bg-surface-dark);
+  border-color: var(--border-default-dark);
+}
+
+/* Profile completion progress */
+.progress-ring {
+  transform: rotate(-90deg);
+}
+
+.progress-ring-circle {
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+/* Input focus glow - soft */
+input:focus,
+textarea:focus,
+select:focus {
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+}
+
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.15);
+}
+
+/* API key input with masked display */
+.api-key-input {
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+}
+
+/* Provider button active state */
+.provider-btn-active {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-50);
+}
+
+.dark .provider-btn-active {
+  background: rgba(20, 184, 166, 0.1);
+  border-color: var(--color-primary-400);
+}
+
+/* Custom scrollbar for popup */
+.popup-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.popup-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.popup-content::-webkit-scrollbar-thumb {
+  background: var(--color-gray-300);
+  border-radius: var(--radius-full);
+}
+
+.popup-content::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-400);
+}
+
+.dark .popup-content::-webkit-scrollbar-thumb {
+  background: var(--color-gray-600);
+}
+
+.dark .popup-content::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-500);
+}
+
+/* Animation delays */
+.animate-delay-100 {
+  animation-delay: 100ms;
+}
+.animate-delay-200 {
+  animation-delay: 200ms;
+}
+.animate-delay-300 {
+  animation-delay: 300ms;
+}
+.animate-delay-400 {
+  animation-delay: 400ms;
 }

@@ -1,9 +1,7 @@
 name: Feature Request
-description: Suggest an idea for improvement.
+description: Suggest a new feature or improvement for Jobestry.
 title: "[Feature Request]: "
-labels: [ "request-new-feature", "triage" ]
-assignees:
-  - Jonghakseo
+labels: [ "enhancement", "triage" ]
 
 body:
   - type: textarea
@@ -19,8 +17,12 @@ body:
     id: proposed-solution
     attributes:
       label: Proposed Solution
-      description: A clear and concise description of what you want to happen.
-      placeholder: Describe the solution you'd like.
+      description: How should this feature work? What would the user experience be?
+      placeholder: |
+        Describe the feature in detail:
+        - Where would it appear in the UI?
+        - How would users interact with it?
+        - What would it do?
     validations:
       required: true
 
