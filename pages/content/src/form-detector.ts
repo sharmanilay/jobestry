@@ -998,20 +998,45 @@ const fillField = (field: DetectedField, value: string): boolean => {
  */
 const extractJobDescription = (force: boolean = false): string | null => {
   // Detect platform from URL
-  const url = window.location.href.toLowerCase();
+  const url = window.location.href;
+  const urlObj = new URL(url);
+  const hostname = urlObj.hostname.toLowerCase();
+  const pathname = urlObj.pathname.toLowerCase();
 
   const detectPlatform = (): string => {
-    if (url.includes('greenhouse')) return 'greenhouse';
-    if (url.includes('lever')) return 'lever';
-    if (url.includes('workday')) return 'workday';
-    if (url.includes('ashby')) return 'ashby';
-    if (url.includes('linkedin.com/jobs')) return 'linkedin';
-    if (url.includes('indeed.com')) return 'indeed';
-    if (url.includes('icims')) return 'icims';
-    if (url.includes('taleo')) return 'taleo';
-    if (url.includes('bamboohr')) return 'bamboohr';
-    if (url.includes('smartrecruiters')) return 'smartrecruiters';
-    if (url.includes(' Greenhouse') || url.includes('/jobs?gh_')) return 'greenhouse';
+    // Greenhouse
+    if (hostname === 'greenhouse.io' || hostname.endsWith('.greenhouse.io')) return 'greenhouse';
+    if (pathname.includes('/jobs?gh_')) return 'greenhouse';
+
+    // Lever
+    if (hostname === 'lever.co' || hostname.endsWith('.lever.co')) return 'lever';
+
+    // Workday
+    if (hostname === 'myworkdayjobs.com' || hostname.endsWith('.myworkdayjobs.com')) return 'workday';
+
+    // Ashby
+    if (hostname === 'ashbyhq.com' || hostname.endsWith('.ashbyhq.com')) return 'ashby';
+
+    // LinkedIn jobs
+    if (hostname === 'linkedin.com' || hostname.endsWith('.linkedin.com')) {
+      if (pathname.startsWith('/jobs')) return 'linkedin';
+    }
+
+    // Indeed
+    if (hostname === 'indeed.com' || hostname.endsWith('.indeed.com')) return 'indeed';
+
+    // iCIMS
+    if (hostname === 'icims.com' || hostname.endsWith('.icims.com')) return 'icims';
+
+    // Taleo
+    if (hostname === 'taleo.net' || hostname.endsWith('.taleo.net')) return 'taleo';
+
+    // BambooHR
+    if (hostname === 'bamboohr.com' || hostname.endsWith('.bamboohr.com')) return 'bamboohr';
+
+    // SmartRecruiters
+    if (hostname === 'smartrecruiters.com' || hostname.endsWith('.smartrecruiters.com')) return 'smartrecruiters';
+
     return 'unknown';
   };
 
