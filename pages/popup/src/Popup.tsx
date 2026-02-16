@@ -11,6 +11,7 @@ import {
   FileUpload,
   ErrorDisplay,
   LoadingSpinner,
+  Select,
   cn,
 } from '@extension/ui';
 import { useState, useEffect } from 'react';
@@ -533,12 +534,19 @@ const ApiKeyTab = ({ apiConfig }: { apiConfig: ApiConfig }) => {
   const handleSave = async () => {
     const isValid = apiConfigStorage.isValidKeyFormat(selectedProvider, apiKey);
     if (apiKey && !isValid) {
-      const errorMsg =
-        selectedProvider === 'gemini'
-          ? 'Invalid format. Keys start with "AI" and are 30-50 chars.'
-          : selectedProvider === 'openai'
-            ? 'Invalid format. Keys start with "sk-"'
-            : 'Invalid format. Keys start with "sk-ant-"';
+      const prefixMap = {
+        gemini: '"AI"',
+        openai: '"sk-"',
+        claude: '"sk-ant-"',
+      };
+      const minLengthMap = {
+        gemini: 30,
+        openai: 40,
+        claude: 50,
+      };
+      const prefix = prefixMap[selectedProvider];
+      const minLength = minLengthMap[selectedProvider];
+      const errorMsg = `Invalid format. Keys should start with ${prefix} and be at least ${minLength} characters.`;
       setValidationError(errorMsg);
       return;
     }
@@ -558,40 +566,30 @@ const ApiKeyTab = ({ apiConfig }: { apiConfig: ApiConfig }) => {
 
   return (
     <div className="animate-fade-in-up space-y-4">
-      <div>
-        <span className="mb-2 block text-sm font-medium text-[#e7e5e4]">Select AI Provider</span>
-        <div className="grid grid-cols-3 gap-2">
-          {PROVIDERS.map(provider => {
-            const isActive = apiConfig.selectedProvider === provider.id;
-            const hasKey = !!apiConfig[provider.id]?.apiKey;
-            return (
-              <button
-                key={provider.id}
-                onClick={() => handleProviderChange(provider.id)}
-                className={cn(
-                  'rounded-lg border p-3 text-left transition-all',
-                  isActive ? 'border-teal-400 bg-teal-900/20' : 'border-[#525252] hover:border-[#737373]',
-                )}>
-                <div className="text-sm font-medium text-[#fafaf9]">{provider.name}</div>
-                <div className="mt-1 text-xs">
-                  {hasKey ? (
-                    <span className="text-emerald-400">Key saved</span>
-                  ) : (
-                    <span className="text-[#a8a29e]">No key</span>
-                  )}
-                </div>
-              </button>
-            );
-          })}
+      <div className="grid grid-cols-2 gap-3">
+        <Select
+          label="AI Provider"
+          value={selectedProvider}
+          onChange={e => handleProviderChange(e.target.value as AIProvider)}
+          options={PROVIDERS.map(p => ({
+            value: p.id,
+            label: p.name,
+          }))}
+          className="border-[#525252] bg-[#292524] text-[#fafaf9] focus:border-teal-400 focus:ring-teal-400/20"
+        />
+        <div>
+          <span className="mb-1.5 block text-sm font-medium text-[#e7e5e4]">Status</span>
+          <div className="flex h-10 items-center rounded-lg border border-[#525252] bg-[#292524] px-3">
+            {apiConfig[selectedProvider]?.apiKey ? (
+              <span className="flex items-center gap-1.5 text-sm text-emerald-400">
+                <CheckIcon /> Key saved
+              </span>
+            ) : (
+              <span className="text-sm text-[#a8a29e]">No key</span>
+            )}
+          </div>
         </div>
       </div>
-      {hasApiKey && apiConfig.selectedProvider !== selectedProvider && (
-        <div className="rounded-lg border border-amber-800 bg-amber-900/20 p-3">
-          <p className="text-sm text-amber-200">
-            Switch to <strong>{currentProvider.name}</strong> to configure its API key
-          </p>
-        </div>
-      )}
       <div className="rounded-lg border border-teal-800 bg-teal-900/20 p-4">
         <div className="flex gap-3 text-teal-400">
           <AlertIcon />
@@ -669,6 +667,13 @@ const ApiKeyTab = ({ apiConfig }: { apiConfig: ApiConfig }) => {
       )}
       {!isFormatValid && <p className="text-sm text-red-400">Invalid key format for {currentProvider.name}</p>}
       {validationError && <p className="text-sm text-red-400">{validationError}</p>}
+      {hasApiKey && apiConfig.selectedProvider !== selectedProvider && (
+        <div className="rounded-lg border border-amber-800 bg-amber-900/20 p-3">
+          <p className="text-sm text-amber-200">
+            Switch to <strong>{currentProvider.name}</strong> to configure its API key
+          </p>
+        </div>
+      )}
       <Button
         onClick={handleSave}
         loading={saving}

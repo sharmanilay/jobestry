@@ -121,7 +121,7 @@ export const apiConfigStorage = {
     if (!key) return false;
     switch (provider) {
       case 'gemini':
-        return key.length >= 30 && key.length <= 50 && key.startsWith('AI');
+        return key.startsWith('AI') && key.length >= 30;
       case 'openai':
         return key.startsWith('sk-') && key.length >= 40;
       case 'claude':
